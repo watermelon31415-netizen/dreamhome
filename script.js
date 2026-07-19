@@ -30,11 +30,15 @@ async function loadImages(){
 
 images = data.map(item => {
 
-    if(typeof item.tags === "string"){
+   if(typeof item.tags === "string"){
 
-        item.tags = item.tags.split(",");
+    item.tags = item.tags
+        .replace("[", "")
+        .replace("]", "")
+        .split(",")
+        .map(t => t.trim());
 
-    }
+}
 
     return item;
 
@@ -380,10 +384,12 @@ async function editImage(id){
     }
 
 
-    let tags = newTags
-        .split(",")
-        .map(t => t.trim())
-        .filter(t => t);
+   let tags = newTags
+    .replace("[", "")
+    .replace("]", "")
+    .split(",")
+    .map(t => t.trim())
+    .filter(t => t);
 
 
 
