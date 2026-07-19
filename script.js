@@ -213,6 +213,8 @@ async function saveImage(){
 
     let title = document.getElementById("title").value;
 
+    console.log("TITLE:", title);
+
     let tagsText = document.getElementById("tags").value;
 
 
