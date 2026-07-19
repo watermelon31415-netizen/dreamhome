@@ -1,4 +1,16 @@
-let images = JSON.parse(localStorage.getItem("dreamHome")) || [];
+let images = [];
+
+fetch("images.json")
+.then(response => response.json())
+.then(data => {
+
+    images = data;
+
+    showTags();
+
+    showImages();
+
+});
 
 
 images = images.map(item => {
