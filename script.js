@@ -230,7 +230,7 @@ async function saveImage(){
 
 
     let tags = tagsText
-        .split(",")
+        .split(/[,，]/)
         .map(t => t.trim())
         .filter(t => t);
 
@@ -342,53 +342,80 @@ async function deleteImage(id){
 }
 
 
-function editImage(id){
+async function editImage(id){
+
+    let item = images.find(item => item.id == id);
 
 
-let item = images.find(item => item.id == id);
-
-let newRoom = prompt(
-"修改房间：客厅 / 卧室 / 阳台 / 厨房 / 工作室 / 卫生间 / 餐厅",
-item.room
-);
-
-let newTags = prompt(
-"修改标签，用逗号分隔",
-(item.tags || []).join(",")
-);
+    let newRoom = prompt(
+        "修改房间：客厅 / 卧室 / 阳台 / 厨房 / 工作室 / 卫生间 / 餐厅",
+        item.room
+    );
 
 
-if(newTags !== null){
-
-item.tags = newTags
-.split(",")
-.map(t=>t.trim())
-.filter(t=>t);
-
-}
-
-if(newRoom !== null && newRoom !== ""){
-
-item.room = newRoom;
-
-}
-
-let newNote = prompt(
-"修改备注：",
-item.note || ""
-);
+    let newTags = prompt(
+        "修改标签，用逗号分隔",
+        (item.tags || []).join(",")
+    );
 
 
-if(newNote !== null){
+    let newNote = prompt(
+        "修改备注：",
+        item.note || ""
+    );
 
 
-item.note = newNote;
+    if(newRoom === null){
+        newRoom = item.room;
+    }
 
+
+    if(newTags === null){
+        newTags = (item.tags || []).join(",");
+    }
+
+
+    if(newNote === null){
+        newNote = item.note || "";
+    }
+
+
+    let tags = newTags
+        .split(",")
+        .map(t => t.trim())
+        .filter(t => t);
 
 
 
-location.reload();
+    const { error } = await supabaseClient
+        .from("images")
+        .update({
 
+            room: newRoom,
+
+            tags: tags,
+
+            note: newNote
+
+        })
+        .eq("id", id);
+
+
+
+    if(error){
+
+        console.error(error);
+
+        alert("修改失败");
+
+        return;
+
+    }
+
+
+    alert("修改成功");
+
+    location.reload();
 
 }
 
