@@ -3,18 +3,17 @@ console.log("Dream Home script loaded");
 const supabaseUrl = "https://ocqurgwxtqhmvavmbrky.supabase.co";
 const supabaseKey = "sb_publishable_euhGO6kO7Q7cciA3G_hiqg_xZ1xnoHy";
 
-window.supabaseClient = window.supabase.createClient(
+const supabaseClient = window.supabase.createClient(
     supabaseUrl,
     supabaseKey
 );
-
 
 let images = [];
 let currentKeyword = "";
 
 async function loadImages(){
 
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
         .from("images")
         .select("*")
         .order("created_at", { ascending: false });
@@ -233,7 +232,7 @@ async function saveImage(){
     let fileName = Date.now() + "_" + file.name;
 
 
-    const { error: uploadError } = await supabase
+    const { error: uploadError } = await supabaseClient
         .storage
         .from("dream-home")
         .upload(fileName, file);
@@ -250,7 +249,7 @@ async function saveImage(){
     }
 
 
-    const { data: urlData } = supabase
+    const { data: urlData } = supabaseClient
         .storage
         .from("dream-home")
         .getPublicUrl(fileName);
@@ -260,7 +259,7 @@ async function saveImage(){
 
 
 
-    const { error: insertError } = await supabase
+    const { error: insertError } = await supabaseClient
         .from("images")
         .insert({
 
@@ -304,7 +303,7 @@ async function deleteImage(id){
 
     if(result){
 
-        const { error } = await supabase
+        const { error } = await supabaseClient
             .from("images")
             .delete()
             .eq("id", id);
