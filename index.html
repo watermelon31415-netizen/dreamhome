@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>My Dream Home</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+
+
+<body>
+
+
+<div class="header">
+
+<h1>🏠 My Dream Home</h1>
+
+<p>收藏你的装修灵感</p>
+
+
+
+<div class="upload-box">
+
+
+<h2>添加新灵感</h2>
+
+
+<select id="room">
+
+<option>客厅</option>
+<option>卧室</option>
+<option>阳台</option>
+<option>厨房</option>
+<option>餐厅</option>
+<option>工作室</option>
+<option>卫生间</option>
+
+</select>
+
+
+<br>
+
+
+<input type="file" id="imageInput" accept="image/*">
+
+
+
+<br>
+
+
+<input id="tags" placeholder="输入标签，例如：奶油风, 原木, 极简">
+
+
+<br>
+
+
+<textarea id="note" placeholder="写下你的装修想法..."></textarea>
+
+
+<br>
+
+
+<button onclick="saveImage()">
+保存灵感
+</button>
+
+
+
+
+<h2>我的收藏</h2>
+
+<div id="tagList">
+
+</div>
+
+<input 
+id="search"
+placeholder="搜索标签，例如：投影仪"
+oninput="searchImages()">
+
+<div class="room">
+
+<h3>🛋 客厅</h3>
+
+<div id="客厅"></div>
+
+</div>
+
+
+
+<div class="room">
+
+<h3>🛏 卧室</h3>
+
+<div id="卧室"></div>
+
+</div>
+
+
+
+<div class="room">
+
+<h3>🌿 阳台</h3>
+
+<div id="阳台"></div>
+
+</div>
+
+
+
+<div class="room">
+
+<h3>🍳 厨房</h3>
+
+<div id="厨房"></div>
+
+</div>
+
+
+
+<div class="room">
+
+<h3>🍽 餐厅</h3>
+
+<div id="餐厅"></div>
+
+</div>
+
+
+
+<div class="room">
+
+<h3>💻 工作室</h3>
+
+<div id="工作室"></div>
+
+</div>
+
+
+
+<div class="room">
+
+<h3>🚿 卫生间</h3>
+
+<div id="卫生间"></div>
+
+</div>
+
+
+<script src="script.js"></script>
+
+
+</body>
+
+</html>
