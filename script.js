@@ -1,35 +1,30 @@
 let images = [];
 
+let currentKeyword = "";
+
+
 fetch("images.json")
 .then(response => response.json())
 .then(data => {
 
-    images = data;
+    images = data.map(item => {
+
+        if(!item.id){
+
+            item.id = Date.now() + Math.random();
+
+        }
+
+        return item;
+
+    });
+
 
     showTags();
 
     showImages();
 
 });
-
-
-images = images.map(item => {
-
-if(!item.id){
-
-item.id = Date.now() + Math.random();
-
-}
-
-return item;
-
-});
-
-
-localStorage.setItem(
-"dreamHome",
-JSON.stringify(images)
-);
 
 let currentKeyword = "";
 
@@ -104,11 +99,6 @@ currentKeyword &&
 
 return;
 
-}
-
-if(currentKeyword && 
-!item.tags.join(",").includes(currentKeyword)){
-    return;
 }
 
 
@@ -252,14 +242,6 @@ reader.readAsDataURL(file);
 }
 
 
-
-
-
-showTags();
-
-showImages();
-
-function searchImages(){
 
 currentKeyword = document
 .getElementById("search")
