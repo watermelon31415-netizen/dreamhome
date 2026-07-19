@@ -313,9 +313,6 @@ async function saveImage(){
 
 
 
-
-
-
 async function deleteImage(id){
 
     let result = confirm("确定删除这张图片吗？");
@@ -331,6 +328,7 @@ async function deleteImage(id){
         if(error){
 
             console.error(error);
+            alert("删除失败");
             return;
 
         }
