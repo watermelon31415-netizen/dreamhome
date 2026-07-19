@@ -161,12 +161,12 @@ ${tagsHTML}
 
 ${item.note ? `<p>📝 ${item.note}</p>` : ""}
 
-<button onclick="editImage(${item.id})">
+<button onclick="editImage('${item.id}')">
 ✏️ 编辑
 </button>
 
 
-<button onclick="deleteImage(${item.id})">
+<button onclick="deleteImage('${item.id}')">
 🗑 删除
 </button>
 
