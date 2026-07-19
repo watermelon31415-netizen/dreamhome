@@ -211,6 +211,8 @@ async function saveImage(){
 
     let note = document.getElementById("note").value;
 
+    let title = document.getElementById("title").value;
+
     let tagsText = document.getElementById("tags").value;
 
 
@@ -262,18 +264,20 @@ async function saveImage(){
 
 
     const { error: insertError } = await supabaseClient
-        .from("images")
-        .insert({
+    .from("images")
+    .insert({
 
-            room: room,
+        title: title,
 
-            tags: tags,
+        room: room,
 
-            image_url: image_url,
+        tags: tags,
 
-            note: note
+        image_url: image_url,
 
-        });
+        note: note
+
+    });
 
 
 
