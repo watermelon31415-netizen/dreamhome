@@ -28,9 +28,20 @@ async function loadImages(){
     }
 
 
-    images = data;
+images = data.map(item => {
 
-    console.log(images);
+    if(typeof item.tags === "string"){
+
+        item.tags = item.tags.split(",");
+
+    }
+
+    return item;
+
+});
+
+
+console.log(images);
 
 
     showTags();
