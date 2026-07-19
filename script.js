@@ -1,32 +1,40 @@
-let images = [];
+const supabaseUrl = "你的 Project URL";
+const supabaseKey = "你的 Publishable key";
 
+const supabase = window.supabase.createClient(
+    supabaseUrl,
+    supabaseKey
+);
+
+
+let images = [];
 let currentKeyword = "";
 
+async function loadImages(){
 
-fetch("images.json")
-.then(response => response.json())
-.then(data => {
+    const { data, error } = await supabase
+        .from("images")
+        .select("*")
+        .order("created_at", { ascending: false });
 
-    images = data.map(item => {
 
-        if(!item.id){
+    if(error){
 
-            item.id = Date.now() + Math.random();
+        console.error("读取失败:", error);
 
-        }
+        return;
 
-        return item;
+    }
 
-    });
+
+    images = data;
 
 
     showTags();
 
     showImages();
 
-});
-
-let currentKeyword = "";
+}
 
 function showTags(){
 
@@ -101,6 +109,11 @@ return;
 
 }
 
+if(currentKeyword && 
+!item.tags.join(",").includes(currentKeyword)){
+    return;
+}
+
 
 let box = document.getElementById(item.room);
 
@@ -127,7 +140,7 @@ box.innerHTML += `
 <div class="card">
 
 
-<img src="${item.image}">
+<img src="${item.image_url}">
 
 
 <div>
@@ -164,84 +177,12 @@ ${item.note ? `<p>📝 ${item.note}</p>` : ""}
 
 
 
-function saveImage(){
-
-
-let file = document.getElementById("imageInput").files[0];
-
-
-let room = document.getElementById("room").value;
-
-
-let note = document.getElementById("note").value;
-
-
-let tagsText = document.getElementById("tags").value;
-
-
-let tags = tagsText
-.split(",")
-.map(t=>t.trim())
-.filter(t=>t);
 
 
 
-if(!file){
+loadImages();
 
-alert("请选择图片");
-
-return;
-
-}
-
-
-
-let reader = new FileReader();
-
-
-
-reader.onload=function(e){
-
-
-images.push({
-id: Date.now(),
-room:room,
-
-image:e.target.result,
-
-note:note,
-
-tags:tags
-
-});
-
-
-
-localStorage.setItem(
-
-"dreamHome",
-
-JSON.stringify(images)
-
-);
-
-
-
-location.reload();
-
-
-
-}
-
-
-
-reader.readAsDataURL(file);
-
-
-
-}
-
-
+function searchImages(){
 
 currentKeyword = document
 .getElementById("search")
@@ -272,13 +213,33 @@ let result = confirm("确定删除这张图片吗？");
 
 if(result){
 
-images = images.filter(item => item.id !== id);
+async function deleteImage(id){
+
+    let result = confirm("确定删除这张图片吗？");
+
+    if(result){
+
+        const { error } = await supabase
+            .from("images")
+            .delete()
+            .eq("id", id);
 
 
-localStorage.setItem(
-"dreamHome",
-JSON.stringify(images)
-);
+        if(error){
+
+            console.error(error);
+
+        }
+
+
+        location.reload();
+
+    }
+
+}
+
+
+
 
 
 location.reload();
@@ -331,10 +292,6 @@ if(newNote !== null){
 item.note = newNote;
 
 
-localStorage.setItem(
-"dreamHome",
-JSON.stringify(images)
-);
 
 
 location.reload();
