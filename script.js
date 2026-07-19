@@ -1,5 +1,5 @@
-const supabaseUrl = "你的 Project URL";
-const supabaseKey = "你的 Publishable key";
+const supabaseUrl = "https://ocqurgwxtqhmvavmbrky.supabase.co";
+const supabaseKey = "sb_publishable_euhGO6kO7Q7cciA3G_hiqg_xZ1xnoHy";
 
 const supabase = window.supabase.createClient(
     supabaseUrl,
@@ -28,6 +28,8 @@ async function loadImages(){
 
 
     images = data;
+
+    console.log(images);
 
 
     showTags();
@@ -100,17 +102,11 @@ function showImages(){
 images.forEach(item=>{
 
 
+
 if(
 currentKeyword &&
 !(item.tags || []).join(",").includes(currentKeyword)
 ){
-
-return;
-
-}
-
-if(currentKeyword && 
-!item.tags.join(",").includes(currentKeyword)){
     return;
 }
 
@@ -206,12 +202,99 @@ showImages();
 
 
 
-function deleteImage(id){
+async function saveImage(){
 
-let result = confirm("确定删除这张图片吗？");
+    let file = document.getElementById("imageInput").files[0];
+
+    let room = document.getElementById("room").value;
+
+    let note = document.getElementById("note").value;
+
+    let tagsText = document.getElementById("tags").value;
 
 
-if(result){
+    let tags = tagsText
+        .split(",")
+        .map(t => t.trim())
+        .filter(t => t);
+
+
+    if(!file){
+
+        alert("请选择图片");
+
+        return;
+
+    }
+
+
+    let fileName = Date.now() + "_" + file.name;
+
+
+    const { error: uploadError } = await supabase
+        .storage
+        .from("dream-home")
+        .upload(fileName, file);
+
+
+    if(uploadError){
+
+        console.error(uploadError);
+
+        alert("图片上传失败");
+
+        return;
+
+    }
+
+
+    const { data: urlData } = supabase
+        .storage
+        .from("dream-home")
+        .getPublicUrl(fileName);
+
+
+    const image_url = urlData.publicUrl;
+
+
+
+    const { error: insertError } = await supabase
+        .from("images")
+        .insert({
+
+            room: room,
+
+            tags: tags,
+
+            image_url: image_url,
+
+            note: note
+
+        });
+
+
+
+    if(insertError){
+
+        console.error(insertError);
+
+        alert("保存失败");
+
+        return;
+
+    }
+
+
+    alert("上传成功");
+
+    location.reload();
+
+}
+
+
+
+
+
 
 async function deleteImage(id){
 
@@ -228,23 +311,13 @@ async function deleteImage(id){
         if(error){
 
             console.error(error);
+            return;
 
         }
-
 
         location.reload();
 
     }
-
-}
-
-
-
-
-
-location.reload();
-
-}
 
 }
 
