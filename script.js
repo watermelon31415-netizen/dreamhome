@@ -229,7 +229,9 @@ async function saveImage(){
     }
 
 
-    let fileName = Date.now() + "_" + file.name;
+    let fileExt = file.name.split(".").pop();
+    
+    let fileName = Date.now() + "." + fileExt;
 
 
     const { error: uploadError } = await supabaseClient
