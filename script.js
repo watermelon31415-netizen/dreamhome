@@ -3,7 +3,7 @@ console.log("Dream Home script loaded");
 const supabaseUrl = "https://ocqurgwxtqhmvavmbrky.supabase.co";
 const supabaseKey = "sb_publishable_euhGO6kO7Q7cciA3G_hiqg_xZ1xnoHy";
 
-const supabase = window.supabase.createClient(
+window.supabaseClient = window.supabase.createClient(
     supabaseUrl,
     supabaseKey
 );
