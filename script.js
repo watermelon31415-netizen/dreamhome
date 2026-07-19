@@ -315,6 +315,8 @@ async function saveImage(){
 
 async function deleteImage(id){
 
+    console.log("删除ID:", id);
+
     let result = confirm("确定删除这张图片吗？");
 
     if(result){
