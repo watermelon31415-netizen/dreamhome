@@ -419,5 +419,3 @@ async function editImage(id){
 
 }
 
-
-}
