@@ -152,7 +152,10 @@ box.innerHTML += `
 <div class="card">
 
 
-<img src="${item.image_url}">
+<img
+    src="${item.image_url}"
+    onclick="openImage('${item.image_url}')"
+>
 
 
 <div>
