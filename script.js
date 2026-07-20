@@ -185,9 +185,6 @@ ${item.note ? `<p>📝 ${item.note}</p>` : ""}
 
 
 
-
-
-
 loadImages();
 
 function searchImages(){
