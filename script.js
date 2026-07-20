@@ -340,3 +340,18 @@ async function deleteImage(id){
     }
 
 }
+
+
+function openImage(url){
+
+    document.getElementById("modalImg").src = url;
+
+    document.getElementById("imageModal").style.display = "flex";
+
+}
+
+function closeImage(){
+
+    document.getElementById("imageModal").style.display = "none";
+
+}
